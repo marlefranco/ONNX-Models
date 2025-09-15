@@ -2,7 +2,7 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
-from ml_framework.classification import evaluate_model_on_test_set, train_models_with_cv
+#from ml_framework.classification import evaluate_model_on_test_set, train_models_with_cv
 import numpy as np
 import matplotlib
 matplotlib.use('TkAgg')  # Switches to a more stable backend for VS Code
@@ -11,10 +11,41 @@ from onnxmltools.convert.common.data_types import FloatTensorType
 import yaml
 from processing_module import process_directory, evaluate_onnx_model
 import os
+import sys
 
 
-def main(config_path="config.yaml"):
+def main(config_path=None):
+    # Resolve config path robustly:
+    # 1) If provided, use it; 2) try alongside this script; 3) fall back to CWD.
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    candidates = []
+    if config_path is None:
+        candidates = [
+            os.path.join(script_dir, "config.yaml"),
+            os.path.join(os.getcwd(), "config.yaml"),
+        ]
+        for p in candidates:
+            if os.path.isfile(p):
+                config_path = p
+                break
+    elif not os.path.isabs(config_path):
+        # Allow relative paths from CWD or script dir
+        explicit_candidates = [
+            config_path,
+            os.path.join(script_dir, config_path),
+            os.path.join(os.getcwd(), config_path),
+        ]
+        for p in explicit_candidates:
+            if os.path.isfile(p):
+                config_path = os.path.abspath(p)
+                break
 
+    if config_path is None or not os.path.isfile(config_path):
+        looked = candidates if candidates else [config_path or "config.yaml"]
+        raise FileNotFoundError(
+            f"Config file not found. Looked for: {', '.join(map(str, looked))}. "
+            f"Pass a path: python {os.path.basename(__file__)} TS_ModelPrediction/config.yaml"
+        )
 
     # === Load config ===
     with open(config_path, "r") as f:
@@ -78,7 +109,7 @@ def main(config_path="config.yaml"):
     
     # Build ONNX model filename based on source and ab_status
     onnx_model_name = f"{source}_{ab_status}.onnx"
-    onnx_model_path = os.path.join("ONNX Models", onnx_model_name)
+    onnx_model_path = os.path.join(script_dir, "ONNX Models", onnx_model_name)
     if not os.path.exists(onnx_model_path):
         print(f"[Warning] ONNX model not found: {onnx_model_path}. Skipping ONNX evaluation.")
     else:
@@ -88,4 +119,8 @@ def main(config_path="config.yaml"):
     
     
 if __name__ == "__main__":
-    main()
+    # Optional CLI: python TS_ModelPrediction/main.py [config_path]
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        main()
