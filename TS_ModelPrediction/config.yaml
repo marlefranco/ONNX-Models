@@ -1,0 +1,28 @@
+# config.yaml
+
+main_folder: "C:/Users/bhavana.maradani/Downloads//Test_Samples/XENON"
+darkref_folder: "C:/Users/bhavana.maradani/Downloads//Test_Samples/XENON Dark ref"
+ab_status: "AB_OFF"        # Options: "AB_ON", "AB_OFF"
+Sub: "darkref" #"darkref" → old dark subtraction path.
+            #"avg" → subtract row mean (intensity - mean(intensity)).
+integration_time: "1000"   # Options: 1000, 2000, 3000, or ALL
+source: "XENON"             # Options: LED, XENON
+emission: "NonEmission"           # Options: Emission, NonEmission, or ALL
+power_ratios:
+  Ratio 1: [465, 485, 515, 535]   # Default: 465-485 nm / 515-535 nm
+  Ratio 2: [638, 658, 515, 535]   # Default: 638-658 nm / 515-535 nm
+# Users can change these values to customize the power ratio sets
+        # LED AB OFF
+        # "Ratio 1": ("560-580", "638-658"), 
+        # "Ratio 2": ("635-645", "700-720")
+#LED AB ON
+        # "Ratio 1": ("465-485", "515-535"), 
+        # "Ratio 2": ("587-607", "515-535")
+        
+
+        # "Ratio 1": ("465-485", "515-535"), 
+        # "Ratio 2": ("638-658", "515-535")
+#XENON
+        # "Ratio 1": ("580-600", "430-450"), 
+        # "Ratio 2": ("515-535", "430-450")
+

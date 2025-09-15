@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2020b"><title>Getting Started: Machine Learning (ML) Framework </title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(213, 80, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin: 10px 0px 20px; padding-left: 0px; font-family: Helvetica, Arial, sans-serif; font-size: 14px;  }
+.S3 { margin-left: 56px; line-height: 21px; min-height: 0px; text-align: left; white-space: pre-wrap;  }
+.S4 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 20px; min-height: 0px; white-space: pre-wrap; color: rgb(60, 60, 60); font-family: Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.S5 { border-left: 0px none rgb(0, 0, 0); border-right: 0px none rgb(0, 0, 0); border-top: 0px none rgb(0, 0, 0); border-bottom: 0px none rgb(0, 0, 0); border-radius: 0px; padding: 0px; line-height: 16px; min-height: 16px; white-space: pre; color: rgb(0, 0, 0); font-family: Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 12px;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_0580466A' ><span>Getting Started: Machine Learning (ML) Framework </span></h1><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Use this framework to create and run ML-Experiments in MATLAB. An experiment consists of one or more trials, which represent a unique combination of data preparation steps, model specification, and model optimization. The experiment trials are built automatically from user defined parameters. The framework includes methods for automated machine learning (autoML), and supports supervised, semi-supervised, unsupervised, and predictive maintenance (PdM) problems. </span></div><div  class = 'S1'><span>To define/create an experiment:</span></div><ol  class = 'S2'><li  class = 'S3'><span>Create a user defined function to prepare data for training. </span></li><li  class = 'S3'><span>Specify the ML method as autoML or individual learner. </span></li><li  class = 'S3'><span>Configure input parameters to sweep/explore. </span></li></ol><div  class = 'S1'><span>    </span></div><h2  class = 'S4' id = 'H_4AE6BABE' ><span>Create an experiment </span></h2><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Load a dataset. </span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Load a dataset </span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>location = </span><span style="color: rgb(170, 4, 249);">"somedata.parquet"</span><span>;</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>pds = parquetDatastore( location );</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>data = pds.readall();</span></span></div></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Create a data preparation pipeline from a template. In this example, we create a template for a supervised analysis. The template contains preconfigured  instructions. Using the template a user defines a custom data preparation pipeline/function. As a requirement, this function must accept a `table` type and return a `table` type. Any data preparation parameters defined in the arguments block can be explored in the experiment.</span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Data preparation pipeline </span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>newPipelineTemplate( </span><span style="color: rgb(170, 4, 249);">"byType"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Supervised" </span><span>) </span></span></div></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Configure an experiment. See `optimizeParameters` for valid syntax.</span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%List valid experiment parameters for specified data pipeline</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>validDataParameters = optimizeParameter.listPipeline( </span><span style="color: rgb(170, 4, 249);">"thisPipeline" </span><span>)</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%List valid autoML parameters</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>validModelParameters = optimizeParameter.listModelParameters( </span><span style="color: rgb(170, 4, 249);">"Classification" </span><span>)  </span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Sweep Normalization parameter</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>dataparams(1) = optimizeParameter.new(</span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Name"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Normalization"</span><span>, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Range"</span><span>, [</span><span style="color: rgb(170, 4, 249);">"none" "range" "zscore"</span><span>], </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Type"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Discrete"</span><span>);</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Sweep frame (data processing buffer). Note each sample instance will be a vector.</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>dataparams(2) = optimizeParameter.new(</span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Name"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Frame"</span><span>, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Range"</span><span>, {[200 100], [100 50], [50 25]}], </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Type"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Set"</span><span>);</span><span style="color: rgb(196, 0, 0);">'</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Use a convenience method to return a default model parameters to include in experiment. %Or define a custom set as above. </span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>modelparams = optimizeParameter.defaultAutoMLOptimization()  </span></span></div></div><div  class = 'S1'><span style=' font-family: monospace;'></span></div><div  class = 'S1'><span>Create a new classification experiment. Specify the dataset, an ML method, anda handle to a data preparartion function you created above. </span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span>session = experiment.Classification( </span><span style="color: rgb(170, 4, 249);">"Data"</span><span>, thisData, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"DataFcn"</span><span>, @(data, param)thisPipeline(data, param{:}), </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Model"</span><span>, </span><span style="color: rgb(170, 4, 249);">"autoML"</span><span>, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"DataConfiguration"</span><span>, dataparams, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"ModelConfiguration"</span><span>, modelparams, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"Description"</span><span>, </span><span style="color: rgb(170, 4, 249);">"Some experiment dentification" </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    );</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span>session.configure()</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.run()</span></span></div></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Evaluate trials. View model evaluation statistics against input parameters. In the case of classification, valid metrics for each data partition are: loss, precision, recall, F1score, and AUC. </span><span style=' font-family: monospace;'> </span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%View input and evaluation criteria in a table </span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.describe( </span><span style="color: rgb(170, 4, 249);">"full" </span><span>)</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.sort( </span><span style="color: rgb(170, 4, 249);">"errorOnCV" </span><span>)</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span style="color: rgb(2, 128, 9);">%Visualize all trials in the experiemnt </span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.plotmetric()</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.confusionchart()</span></span></div><div  class = 'S5'></div></div><div  class = 'S1'><span></span></div><div  class = 'S1'><span>Select/save an experiment `item` (optimal model) and the data products with predictions</span></div><div class = 'preformatted-matlab' style = 'margin: 10px 3px 10px 55px; padding: 10px 10px 10px 5px; '><div  class = 'S5'><span style="white-space: pre;"><span>session.select( item_ID, </span><span style="color: rgb(170, 4, 249);">"Metadata"</span><span>, true )</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>session.save( item_ID, </span><span style="color: rgb(170, 4, 249);">"Metadata"</span><span>, true, </span><span style="color: rgb(14, 0, 255);">...</span></span></div><div  class = 'S5'><span style="white-space: pre;"><span>    </span><span style="color: rgb(170, 4, 249);">"WriteDirectory"</span><span>, location);</span></span></div><div  class = 'S5'></div><div  class = 'S5'><span style="white-space: pre;"><span>session.writedata( trial_ID )</span></span></div></div><div  class = 'S1'></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Getting Started: Machine Learning (ML) Framework 
+% 
+% 
+% Use this framework to create and run ML-Experiments in MATLAB. An experiment 
+% consists of one or more trials, which represent a unique combination of data 
+% preparation steps, model specification, and model optimization. The experiment 
+% trials are built automatically from user defined parameters. The framework includes 
+% methods for automated machine learning (autoML), and supports supervised, semi-supervised, 
+% unsupervised, and predictive maintenance (PdM) problems. 
+% 
+% To define/create an experiment:
+%% 
+% # Create a user defined function to prepare data for training. 
+% # Specify the ML method as autoML or individual learner. 
+% # Configure input parameters to sweep/explore. 
+%% 
+% 
+%% Create an experiment 
+% 
+% 
+% Load a dataset. 
+%%
+% 
+%   %Load a dataset 
+%   location = "somedata.parquet";
+%   pds = parquetDatastore( location );
+%   data = pds.readall();
+%
+%% 
+% 
+% 
+% Create a data preparation pipeline from a template. In this example, we create 
+% a template for a supervised analysis. The template contains preconfigured  instructions. 
+% Using the template a user defines a custom data preparation pipeline/function. 
+% As a requirement, this function must accept a `table` type and return a `table` 
+% type. Any data preparation parameters defined in the arguments block can be 
+% explored in the experiment.
+%%
+% 
+%   %Data preparation pipeline 
+%   newPipelineTemplate( "byType", "Supervised" ) 
+%
+%% 
+% 
+% 
+% Configure an experiment. See `optimizeParameters` for valid syntax.
+%%
+% 
+%   %List valid experiment parameters for specified data pipeline
+%   validDataParameters = optimizeParameter.listPipeline( "thisPipeline" )
+%   
+%   %List valid autoML parameters
+%   validModelParameters = optimizeParameter.listModelParameters( "Classification" )  
+%   
+%   %Sweep Normalization parameter
+%   dataparams(1) = optimizeParameter.new(...
+%       "Name", "Normalization", ...
+%       "Range", ["none" "range" "zscore"], ...
+%       "Type", "Discrete");
+%   
+%   %Sweep frame (data processing buffer). Note each sample instance will be a vector.
+%   dataparams(2) = optimizeParameter.new(...
+%       "Name", "Frame", ...
+%       "Range", {[200 100], [100 50], [50 25]}], ...
+%       "Type", "Set");'
+%   
+%   %Use a convenience method to return a default model parameters to include in experiment. %Or define a custom set as above. 
+%   modelparams = optimizeParameter.defaultAutoMLOptimization()  
+%
+%% 
+% 
+% 
+% Create a new classification experiment. Specify the dataset, an ML method, 
+% anda handle to a data preparartion function you created above. 
+%%
+% 
+%   session = experiment.Classification( "Data", thisData, ...
+%       "DataFcn", @(data, param)thisPipeline(data, param{:}), ...
+%       "Model", "autoML", ...
+%       "DataConfiguration", dataparams, ...
+%       "ModelConfiguration", modelparams, ...
+%       "Description", "Some experiment dentification" ...
+%       );
+%   
+%   session.configure()
+%   session.run()
+%
+%% 
+% 
+% 
+% Evaluate trials. View model evaluation statistics against input parameters. 
+% In the case of classification, valid metrics for each data partition are: loss, 
+% precision, recall, F1score, and AUC.  
+%%
+% 
+%   %View input and evaluation criteria in a table 
+%   session.describe( "full" )
+%   session.sort( "errorOnCV" )
+%   
+%   %Visualize all trials in the experiemnt 
+%   session.plotmetric()
+%   session.confusionchart()
+%   
+%
+%% 
+% 
+% 
+% Select/save an experiment `item` (optimal model) and the data products with 
+% predictions
+%%
+% 
+%   session.select( item_ID, "Metadata", true )
+%   session.save( item_ID, "Metadata", true, ...
+%       "WriteDirectory", location);
+%   
+%   session.writedata( trial_ID )
+%
+%% 
+%
+##### SOURCE END #####
+--></body></html>

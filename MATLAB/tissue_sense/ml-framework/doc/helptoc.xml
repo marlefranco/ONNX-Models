@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<toc version="2.0">
+    <!-- First tocitem specifies top level in Help browser Contents pane -->
+    <!-- This can be a roadmap page, as shown below, or a content page -->
+    <tocitem target="MainPage.html">ML Framework Toolbox
+        
+          <!-- Getting Started Guide -->
+        <tocitem target="GettingStarted.html" image="HelpIcon.GETTING_STARTED">
+            Getting Started with ML Framework
+        </tocitem>
+            
+        <!-- Class Reference ML Experiments -->
+        <tocitem target="MLExperimentClassList.html"  image="HelpIcon.USER_GUIDE">
+            ML Experiments Class Reference
+            
+            <tocitem target="experiment.Regression.html"  image="HelpIcon.USER_GUIDE">
+                Machine learning regression experiments
+            </tocitem>
+
+            <tocitem target="experiment.Classification.html"  image="HelpIcon.USER_GUIDE">
+                Machine learning classification experiments
+            </tocitem>     
+   
+        </tocitem>
+        
+        <!-- Class Reference ML Utilities -->
+        <tocitem target="MLUtilityClassList.html"  image="HelpIcon.USER_GUIDE">
+            ML Utilities Class Reference
+            
+            <tocitem target="fitr.html"  image="HelpIcon.USER_GUIDE">
+                Fit regression machine learning models
+            </tocitem>
+
+            <tocitem target="fitc.html"  image="HelpIcon.USER_GUIDE">
+                Fit classification machine learning models
+            </tocitem>
+   
+        </tocitem>
+
+        <!-- Consulting Services Website -->
+        <tocitem target="http://www.mathworks.com/services/consulting.html" 
+                 image="$toolbox/matlab/icons/webicon.gif">
+            MathWorks Consulting
+            <tocitem target="http://www.mathworks.com/services/consulting/proven-solutions/software-development-with-matlab.html" 
+                     image="$toolbox/matlab/icons/figureicon.gif">
+                Professional Software Development Services
+            </tocitem>
+        </tocitem>
+    </tocitem>
+</toc>

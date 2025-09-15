@@ -1,0 +1,282 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="helpwin.css"><script type="text/javascript" src="https://localhost:31521/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31521/static/help/includes/shared/scripts/helpservices.js"></script><title>fitc - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         
+      </table>
+      <div class="title">fitc</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">fitc</span> Fit classification machine learning models
+ 
+  multi-class classification models
+    *classification tree: "tree"
+    *classification discriminant analysis: "discr"
+    *classification naive bayes: "nb" 
+    *classification k nearest: "knn"
+    *classification ensemble: "ensemble" 
+    *classification multi-class svm: "ecoc" 
+    *classification neural net: "nnet"
+ 
+  two-class classification models (n==2)
+    *classification svm:  "svm"           
+    *classification linear: "linear"
+    *classification kernel: "kernel"
+  Sytnax is standardized across model types.
+ 
+    To fit a model:
+    [mdl, info] = fitc.type( tbl ) returns a trained ml model and
+    associated evaluation metrics in an info table.
+ 
+    [mdl, info] = fitc.type( ---, "PARAM1", value1, ... ) specifies
+    optional parameter name/value pairs for each model type. 
+ 
+    For detailed documentation on any type see help/doc fitc.type 
+    (e.g. fitc.linear) 
+ 
+ 
+    To predict response: 2 options
+    prediction = fitc.predict( tbl, mdl ) returns model prediction as a
+    variable
+ 
+    [tbl, infoTest] = fitc.predictandupdate( tbl, mdl ) update table
+    with a predictioned value ( as a prediction column) and provides an 
+    optional second output with evaluation metrics on test partition (if 
+    specified).
+ 
+ 
+    To customize hyperparameters: 
+    params = fitc.hyperparameters( tbl, type ) returns a array of
+    hyperparameters for specified model, which can be cusomtized an
+    used as an arugment to OptimizeHyperparameters. Note type is a
+    string containing one of the supported model types excluding "auto".
+ 
+ 
+  Nick C. Howes, Sudheer Nuggehalli
+  MathWorks 2020</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('baseml')">baseml</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('fitc.fitc')">fitc</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.auto')">auto</a></td>
+            <td class="m-help">Perform automated model selection (autoML) across&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.autointernal')">autointernal</a></td>
+            <td class="m-help">AUTO Perform automated model selection (autoML) across&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.checkHyperparamterOptimizationOptions')">checkHyperparamterOptimizationOptions</a></td>
+            <td class="m-help">CHECKHYPERPARAMETEROPTIMIZATIONOPTIONS Check necessary fields
+               Help for fitc.checkHyperparamterOptimizationOptions is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.discr')">discr</a></td>
+            <td class="m-help">Fit discriminant analysis.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.dummyvar')">dummyvar</a></td>
+            <td class="m-help">Dummy variable coding.
+               Help for fitc.dummyvar is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.dummyvar2cats')">dummyvar2cats</a></td>
+            <td class="m-help">DUMMYVAR Dummy variable decoding.
+               Help for fitc.dummyvar2cats is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.ecoc')">ecoc</a></td>
+            <td class="m-help">Fit a multiclass model for Support Vector Machine or other classifiers.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.ensemble')">ensemble</a></td>
+            <td class="m-help">Fit ensemble of classification learners&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.evaluate')">evaluate</a></td>
+            <td class="m-help">Evalaute model on test partition&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.hyperparameters')">hyperparameters</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.kernel')">kernel</a></td>
+            <td class="m-help">Fit a kernel classification model by explicit feature expansion.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.knn')">knn</a></td>
+            <td class="m-help">KNN classification model&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.linear')">linear</a></td>
+            <td class="m-help">Fit a linear classification model to high-dimensional data.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.nb')">nb</a></td>
+            <td class="m-help">Fit a Naive Bayes classifier to data.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.nnet')">nnet</a></td>
+            <td class="m-help">Fit a shallow neural network classification model by explicit feature expansion.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.optimizablemodelslist')">optimizablemodelslist</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.partition')">partition</a></td>
+            <td class="m-help">Create a train/test partition
+               Help for fitc.partition is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.predict')">predict</a></td>
+            <td class="m-help">Predict response for machine learning model
+               Help for fitc.predict is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.predictandupdate')">predictandupdate</a></td>
+            <td class="m-help">Predict response for machine learning model,&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.svm')">svm</a></td>
+            <td class="m-help">Fit a classification Support Vector Machine (SVM)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.tree')">tree</a></td>
+            <td class="m-help">Fit a classification decision tree.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitc.treebagger')">treebagger</a></td>
+            <td class="m-help">Bootstrap aggregation for an ensemble of decision trees.&nbsp;</td>
+         </tr>
+      </table>
+   </body>
+</html>

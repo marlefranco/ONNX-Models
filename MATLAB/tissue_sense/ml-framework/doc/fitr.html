@@ -1,0 +1,250 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="helpwin.css"><script type="text/javascript" src="https://localhost:31521/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31521/static/help/includes/shared/scripts/helpservices.js"></script><title>fitr - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         
+      </table>
+      <div class="title">fitr</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">fitr</span> Fit regression machine learning models
+ 
+  Supported regression types
+    * Regression automated ML: auto
+    * Regression decision trees: tree
+    * Regression support vector machine: svm
+    * Linear Regression: linear
+    * Kernel Regression: kernel
+    * Gaussian Process Regression: gp
+    * Ensemble Regression Learners: ensemble
+    * Neural Net Regression: nnet
+  Sytnax is standardized across model types. 
+  
+    To fit a model:
+    [mdl, info] = fitr.type( tbl ) returns a trained ml model and
+    associated evaluation metrics in an info table.
+ 
+    [mdl, info] = fitr.type( ---, "PARAM1", value1, ... ) specifies
+    optional parameter name/value pairs for each model type. 
+ 
+    For detailed documentation on any type see help/doc fitr.type 
+    (e.g. fitr.linear) 
+ 
+ 
+    To predict response: 2 options
+    prediction = fitr.predict( tbl, mdl ) returns model prediction as a
+    variable
+ 
+    [tbl, infoTest] = fitr.predictandupdate( tbl, mdl ) update table
+    with a predictioned value ( as a prediction column) and provides an 
+    optional second output with evaluation metrics on test partition (if 
+    specified).
+ 
+ 
+    To customize hyperparameters: 
+    params = fitr.hyperparameters( tbl, type ) returns a array of
+    hyperparameters for specified model, which can be cusomtized an
+    used as an arugment to OptimizeHyperparameters. Note type is a
+    string containing one of the supported model types excluding "auto".</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('baseml')">baseml</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('fitr.fitr')">fitr</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.auto')">auto</a></td>
+            <td class="m-help">Perform automated model selection (autoML) across&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.autointernal')">autointernal</a></td>
+            <td class="m-help">AUTO Perform automated model selection (autoML) across&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.checkHyperparamterOptimizationOptions')">checkHyperparamterOptimizationOptions</a></td>
+            <td class="m-help">CHECKHYPERPARAMETEROPTIMIZATIONOPTIONS Check necessary fields
+               Help for fitr.checkHyperparamterOptimizationOptions is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.dummyvar')">dummyvar</a></td>
+            <td class="m-help">Dummy variable coding.
+               Help for fitr.dummyvar is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.dummyvar2cats')">dummyvar2cats</a></td>
+            <td class="m-help">DUMMYVAR Dummy variable decoding.
+               Help for fitr.dummyvar2cats is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.ensemble')">ensemble</a></td>
+            <td class="m-help">Fit ensemble of regression learners&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.evaluate')">evaluate</a></td>
+            <td class="m-help">Evalaute model on test partition&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.gp')">gp</a></td>
+            <td class="m-help">Gaussian Process Regression&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.hyperparameters')">hyperparameters</a></td>
+            <td class="m-help">Return an array of optimizable hyperparameters&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.kernel')">kernel</a></td>
+            <td class="m-help">fit kernel regression model&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.linear')">linear</a></td>
+            <td class="m-help">Fit linear regression to high dimensional data.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.lm')">lm</a></td>
+            <td class="m-help">Fit linear regression model by fitting to data.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.nnet')">nnet</a></td>
+            <td class="m-help">LINEAR Fit shallow neural network regression.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.partition')">partition</a></td>
+            <td class="m-help">Create a train/test partition
+               Help for fitr.partition is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.predict')">predict</a></td>
+            <td class="m-help">Predict response for machine learning model
+               Help for fitr.predict is inherited from superclass BASEML
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.predictandupdate')">predictandupdate</a></td>
+            <td class="m-help">Predict response for machine learning model,&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.svm')">svm</a></td>
+            <td class="m-help">Regression support vector machine&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.tree')">tree</a></td>
+            <td class="m-help">Regression decision tree&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Static 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('fitr.treebagger')">treebagger</a></td>
+            <td class="m-help">Bootstrap aggregation for an ensemble of decision trees.&nbsp;</td>
+         </tr>
+      </table>
+   </body>
+</html>

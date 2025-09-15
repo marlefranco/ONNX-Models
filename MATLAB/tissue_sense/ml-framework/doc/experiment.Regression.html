@@ -1,0 +1,845 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="helpwin.css"><script type="text/javascript" src="https://localhost:31521/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31521/static/help/includes/shared/scripts/helpservices.js"></script><title>experiment.Regression - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         
+      </table>
+      <div class="title">experiment.Regression</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">experiment.Regression</span> Create a machine learning regression experiment. Each
+ run in an experiment consists of: (1) a unique data pipeline configuration,
+ (2) a selected ml model, and (3) a model/hyperparamter configuration.
+ 
+  General Syntax:
+   session = <span class="helptopic">experiment.Regression</span>(...
+        "Data", thisData, ...
+        "DataFcn", @(x, settings)thisPipeline(x, settings{:}), ...
+        "Model", thisModel, ...
+        "DataConfiguration", theseParameters, ...
+        "ModelConfiguration", theseParameters, ...
+        "Description, "Some description of experiment" )
+ 
+  Description:
+    <span class="helptopic">experiment.Regression</span>( "Data", dataset, ...
+        "DataFcn", @(x, settings)datapipeline(x, settings{:} ) will create a
+        regression experiment using the default pipeline. In a standard
+        experiment the "Data" will be processed/prepared using the
+        "DataFcn" specified above and automated machine learning
+        (autoML) applied. By default, cross-validation is used (kFold =
+        5) and hyperparameter optimization is not performed. To change
+        these options specify "ModelConfiguration" parameters (see
+        below).
+        
+        Data: is a table dataset 
+        DataFcn: is an anonymous function specified in the format above
+ 
+    <span class="helptopic">experiment.Regression</span>( __, ...
+        "Model", modelselection) specifies an optional model selection.
+     
+        Model: is a scalar string. Specify: "automl", "selectml",
+        "stackml" or a learner from the regression model set below.
+        Configure the model selection via the ModelConfiguration
+        property described below. 
+        
+        Automated Machine Learning 
+            *automated ML (all regression models): "automl"
+            *select ML ('best' regression model): "selectml"
+            *stacked ML (meta-model combining all regressions): "stackml"    
+ 
+        regression models
+            *regression tree: "tree"
+            *regression svm:  "svm"
+            *regression ensemble: "ensemble" 
+            *regression kernel: "kernel" 
+            *regression linear: "linear" 
+            *regression gaussian process: "gp"
+            *regression tree bagger: "treebagger"
+            *regression neural net: "nnet"
+ 
+    <span class="helptopic">experiment.Regression</span>( __, ...
+        "DataConfiguration", dataparameters, ... "ModelConfiguration",
+        modelparameters ) will create a series of experimental runs.
+        These runs will contain unique combinations of
+        "DataConfiguration" and "ModelConfiguration" parameters.
+        Default search/selection method "Search" is gridsearch, which
+        will find all unique parameter combinations using
+        "NumGridDimensions" for each dimension (configured parameter).
+        "DataConfiguration" contains parameters applied in the data
+        preparation pipeline specified by "DataFcn".
+        "ModelConfiguration" contains parameters applied in the model
+        selection specified by "Model".
+ 
+        DataConfiguration: is an optimizeParameter array (default empty)
+        ModelConfiguration: is an optimizeParameter array (default empty)
+ 
+        Refer to the <a href="matlab:helpwin('optimizeParameter')">optimizeParameter</a>
+        documentation for information on usage.
+ 
+        Valid parameters for DATACONFIGURATION include any parameter 
+        defined in the arguments block of selected data preparation pipeline
+        (e.g. "DataFcn"). Note that it is possible to validate
+        DataConfiguration options prior to running the experiment. See
+        example below. 
+ 
+        Example: Configure pipeline with/without feature selection
+        dataConfiguration = optimizeParameter.new(...
+        	"Name", "Selection", ...
+            "Range", ["none" "fsrf"],...
+            "Type", "Discrete");
+ 
+        Valid parameters for MODELCONFIGURATION for all model
+        selection include:
+            - OptimizeHyperparameters
+            - HyperparameterOptimizationOptions        
+            - CrossValidation
+            - KFold
+            - HoldOut        
+            - PredictorNames
+            - ResponseNames
+            - Include
+ 
+        Note that there are additional options specific to automated ML.
+ 
+        For automl and stackml these options include:
+            - Learners
+        For selectml these options include:
+            - Learners
+            - Metric 
+ 
+        Example: Configure model with/without hyperparameter optimization
+        modelConfiguration = optimizeParameter.new(...
+        	"Name", "OptimizeHyperparameters", ...
+            "Range", ["none" "all"],...
+            "Type", "Discrete");
+        
+        Refer to <a href="matlab:helpwin('fitr')">fitr</a> documentation for general information on
+        parameter usage, or <a href="matlab:helpwin('fitr/tree')">fitr/tree</a> for a specific method.      
+        
+    <span class="helptopic">experiment.Regression</span>( __, ...
+        "AdditionalConfiguration", addnlparameters ... "Search",
+        searchmethod, ... "Description", experimentdescription, ...
+        "CustomProperties", listofcustomproperties) allows for
+        additional customization of the experiment.
+        "AdditionalConfiguration" allows for additional parameters to
+        be applied in the data pipeline "DataFcn" without entering the
+        experimental design. These parameters will be constants across
+        all runs. "Search" specifies the parameter selection method:
+        "randomsearch" or "gridsearch". "Description" specifies a tag
+        or metadata associated with the experiment. "CustomProperties"
+        specifies a set of custom properties defined in the "DataFcn"
+        for display of the experimental results. Additionally, specify
+        the number of samples using "Evaluation" if "Search" is
+        "randomsearch" or number of grid samples per dimension using
+        "NumGridDimensions" if "Search" is "gridsearch".
+ 
+    <span class="helptopic">experiment.Regression</span> methods:
+  
+    <a href="matlab:helpwin experiment.Regression/validate">validate</a>      - validate the input configruation (DataConfiguration) 
+    <a href="matlab:helpwin experiment.Regression/build">build</a>         - construct experimental runs from input configuration
+    <a href="matlab:helpwin experiment.Regression/configure">configure</a>     - validate and build in a single step 
+    <a href="matlab:helpwin experiment.Regression/preview">preview</a>       - preview the experimental runs as a table
+ 
+    <a href="matlab:helpwin experiment.Regression/prepare">prepare</a>       - run the data preparation pipelines
+    <a href="matlab:helpwin experiment.Regression/fit">fit</a>           - fit model to data pipeline result
+    <a href="matlab:helpwin experiment.Regression/run">run</a>           - prepare and train in a single step
+ 
+    <a href="matlab:helpwin experiment.Regression/describe">describe</a>      - view input parameters with model results as a table
+    <a href="matlab:helpwin experiment.Regression/sort">sort</a>          - rank experiment model runs by user defined metric
+    <a href="matlab:helpwin experiment.Regression/select">select</a>        - select/extract a model from the experiment
+    <a href="matlab:helpwin experiment.Regression/view">view</a>          - view dataset corresponding to an experiment run
+    
+    <a href="matlab:helpwin experiment.Regression/plotmetric">plotmetric</a>    - visualize mse of model runs as bar graph
+    <a href="matlab:helpwin experiment.Regression/predictactual">predictactual</a> - visualize model runs as predict-actual scatterplot
+ 
+    <a href="matlab:helpwin experiment.Regression/save">save</a>          - export experiment items/models to disk 
+    <a href="matlab:helpwin experiment.Regression/writedata">writedata</a>     - export trial data results with predictions
+ 
+    <span class="helptopic">experiment.Regression</span> properties
+    
+    <a href="matlab:helpwin experiment.Regression/Data">Data</a>                    - Input data
+    <a href="matlab:helpwin experiment.Regression/DataFcn">DataFcn</a>                 - Specify data preparation pipeline 
+    <a href="matlab:helpwin experiment.Regression/Model">Model</a>                   - Select regression method
+ 
+    <a href="matlab:helpwin experiment.Regression/DataConfiguration">DataConfiguration</a>       - Configure 'sweepable' parameters for data preparation pipeline
+    <a href="matlab:helpwin experiment.Regression/ModelConfiguration">ModelConfiguration</a>      - Configure 'sweepable' parameters for model selection
+    <a href="matlab:helpwin experiment.Regression/AdditionalConfiguration">AdditionalConfiguration</a> - Configure parameters for data pipeline (not sweepable in the design)
+ 
+    <a href="matlab:helpwin experiment.Regression/Search">Search</a>                  - Specify parameter selection method
+    <a href="matlab:helpwin experiment.Regression/Evaluations">Evaluations</a>             - Specify number of samples if "Search" is "randomsearch"   
+    <a href="matlab:helpwin experiment.Regression/NumGridDivisions">NumGridDivisions</a>        - Specify number of grid samples if "Search" is "gridsearch"
+ 
+    <a href="matlab:helpwin experiment.Regression/Description">Description</a>             - Description/tag associated with the experiment  
+    <a href="matlab:helpwin experiment.Regression/CustomProperties">CustomProperties</a>        - Specify properties defined in data pipeline to appear in evaluation metrics 
+ 
+ 
+    N.C. Howes, Sudheer Nuggehalli
+    MathWorks 2020</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('experiment.Base')">experiment.Base</a>, <a href="matlab:helpwin('experiment.mixin.Regression')">experiment.mixin.Regression</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Regression')">Regression</a></td>
+            <td class="m-help">experiment.Regression constructor&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.AdditionalConfiguration')">AdditionalConfiguration</a></td>
+            <td class="m-help">Configure data preparation pipelines with&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.CustomProperties')">CustomProperties</a></td>
+            <td class="m-help">Specify any custom properties in the data pipeline to&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Data')">Data</a></td>
+            <td class="m-help">Input dataset as a table. Input data will prepared using the&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.DataConfiguration')">DataConfiguration</a></td>
+            <td class="m-help">Configure 'sweepable' parameters for data&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.DataFcn')">DataFcn</a></td>
+            <td class="m-help">Specify data preparation pipeline as anonymous function&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Description')">Description</a></td>
+            <td class="m-help">String/tag associated with the experiment session&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Evaluations')">Evaluations</a></td>
+            <td class="m-help">Specify number of samples as integer value if "Search"&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Model')">Model</a></td>
+            <td class="m-help">Select regression method. Either automated machine learning&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ModelConfiguration')">ModelConfiguration</a></td>
+            <td class="m-help">Configure 'sweepable' parameters for&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.NumGridDivisions')">NumGridDivisions</a></td>
+            <td class="m-help">Specify number of grid samples per dimension if&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Search')">Search</a></td>
+            <td class="m-help">Specify parameter selection method for configuration. Valid&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Type')">Type</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.Pipelines')">Pipelines</a></td>
+            <td class="m-help">TODO DOC&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.addlistener')">addlistener</a></td>
+            <td class="m-help">Add listener for event.
+               Help for experiment.Regression/addlistener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.automl')">automl</a></td>
+            <td class="m-help">Help for experiment.Regression/automl is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.build')">build</a></td>
+            <td class="m-help">Summary of this method goes here&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.configure')">configure</a></td>
+            <td class="m-help">Validate and buid experiment&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.delete')">delete</a></td>
+            <td class="m-help">Destructor&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.describe')">describe</a></td>
+            <td class="m-help">Compare input parameters with model evaluation&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ensemble')">ensemble</a></td>
+            <td class="m-help">Ensemble of regression learners model pipeline
+               Help for experiment.Regression/ensemble is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.eq')">eq</a></td>
+            <td class="m-help">== (EQ)   Test handle equality.
+               Help for experiment.Regression/eq is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.findobj')">findobj</a></td>
+            <td class="m-help">Find objects matching specified conditions.
+               Help for experiment.Regression/findobj is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.findprop')">findprop</a></td>
+            <td class="m-help">Find property of MATLAB handle object.
+               Help for experiment.Regression/findprop is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.fit')">fit</a></td>
+            <td class="m-help">Train specified ml for items in items/configuration in the&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.fullpreview')">fullpreview</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ge')">ge</a></td>
+            <td class="m-help">&gt;= (GE)   Greater than or equal relation for handles.
+               Help for experiment.Regression/ge is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.get')">get</a></td>
+            <td class="m-help">Get MATLAB object properties.
+               Help for experiment.Regression/get is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.getdisp')">getdisp</a></td>
+            <td class="m-help">Specialized MATLAB object property display.
+               Help for experiment.Regression/getdisp is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.gp')">gp</a></td>
+            <td class="m-help">Gaussian process regression model pipeline
+               Help for experiment.Regression/gp is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.gt')">gt</a></td>
+            <td class="m-help">&gt; (GT)   Greater than relation for handles.
+               Help for experiment.Regression/gt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.handleError')">handleError</a></td>
+            <td class="m-help">handleErrorAutoML
+               Help for experiment.Regression/handleError is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.head')">head</a></td>
+            <td class="m-help">TODO&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.i_buildconstants')">i_buildconstants</a></td>
+            <td class="m-help">Internal function&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.i_modelsettings')">i_modelsettings</a></td>
+            <td class="m-help">Get samples&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.i_pipelinesettings')">i_pipelinesettings</a></td>
+            <td class="m-help">Get samples&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.i_postprepareChecks')">i_postprepareChecks</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ind2sub')">ind2sub</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.initializeModelParams')">initializeModelParams</a></td>
+            <td class="m-help">Help for experiment.Regression/initializeModelParams is inherited from superclass EXPERIMENT.MIXIN.BASE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.isvalid')">isvalid</a></td>
+            <td class="m-help">Test handle validity.
+               Help for experiment.Regression/isvalid is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.kernel')">kernel</a></td>
+            <td class="m-help">Kernel regression model pipeline
+               Help for experiment.Regression/kernel is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.le')">le</a></td>
+            <td class="m-help">&lt;= (LE)   Less than or equal relation for handles.
+               Help for experiment.Regression/le is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.linear')">linear</a></td>
+            <td class="m-help">Linear regression [hd] model pipeline
+               Help for experiment.Regression/linear is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.listener')">listener</a></td>
+            <td class="m-help">Add listener for event without binding the listener to the source object.
+               Help for experiment.Regression/listener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.lm')">lm</a></td>
+            <td class="m-help">Linear regression model pipeline
+               Help for experiment.Regression/lm is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.lt')">lt</a></td>
+            <td class="m-help">&lt; (LT)   Less than relation for handles.
+               Help for experiment.Regression/lt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ne')">ne</a></td>
+            <td class="m-help">~= (NE)   Not equal relation for handles.
+               Help for experiment.Regression/ne is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.nnet')">nnet</a></td>
+            <td class="m-help">KERNEL Kernel regression model pipeline
+               Help for experiment.Regression/nnet is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.notify')">notify</a></td>
+            <td class="m-help">Notify listeners of event.
+               Help for experiment.Regression/notify is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.plotmetric')">plotmetric</a></td>
+            <td class="m-help">Plot evulation metric for all experimental runs as a&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.predictactual')">predictactual</a></td>
+            <td class="m-help">Scatter plot of prediction versus actual (true)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.prepare')">prepare</a></td>
+            <td class="m-help">Run data preparation pipelines for items/configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.preview')">preview</a></td>
+            <td class="m-help">Preview the experimental items/configuration.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.reset')">reset</a></td>
+            <td class="m-help">TODO DOC&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.run')">run</a></td>
+            <td class="m-help">Run experimental items/configurations. Each item run&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.sample')">sample</a></td>
+            <td class="m-help">Internal function performs gridsearch or randomsearch&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.save')">save</a></td>
+            <td class="m-help">Save experiment to disk&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.select')">select</a></td>
+            <td class="m-help">Select/extract a model from the experiment&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.selectml')">selectml</a></td>
+            <td class="m-help">Help for experiment.Regression/selectml is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.set')">set</a></td>
+            <td class="m-help">Set MATLAB object property values.
+               Help for experiment.Regression/set is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.setdisp')">setdisp</a></td>
+            <td class="m-help">Specialized MATLAB object property display.
+               Help for experiment.Regression/setdisp is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.sort')">sort</a></td>
+            <td class="m-help">Rank experiment ML model results by an evaluation metric&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.stackml')">stackml</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.svm')">svm</a></td>
+            <td class="m-help">Regression support vector machine model pipeline
+               Help for experiment.Regression/svm is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.tree')">tree</a></td>
+            <td class="m-help">Regression tree model pipeline
+               Help for experiment.Regression/tree is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.treebagger')">treebagger</a></td>
+            <td class="m-help">Bootstrap aggregation regression tree model pipeline
+               Help for experiment.Regression/treebagger is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.updateLearners')">updateLearners</a></td>
+            <td class="m-help">Help for experiment.Regression/updateLearners is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.validLearners')">validLearners</a></td>
+            <td class="m-help">Help for experiment.Regression/validLearners is inherited from superclass EXPERIMENT.MIXIN.REGRESSION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.validate')">validate</a></td>
+            <td class="m-help">Validate data pipeline and model configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.validateData')">validateData</a></td>
+            <td class="m-help">VALIDATE Validate data pipeline ad configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.validateModel')">validateModel</a></td>
+            <td class="m-help">VALIDATE Validate model configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.view')">view</a></td>
+            <td class="m-help">View data in an experimental item/configuration. View&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.writedata')">writedata</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Events-->
+      <div class="sectiontitle"><a name="events"></a>Event Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Regression.ObjectBeingDestroyed')">ObjectBeingDestroyed</a></td>
+            <td class="m-help">Notifies listeners that a particular object has been destroyed.
+               Help for experiment.Regression/ObjectBeingDestroyed is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
+   </body>
+</html>

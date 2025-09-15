@@ -1,0 +1,192 @@
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration build-checksum="3988575041" file="C:\Users\nhowes\Project\Internal\GitLab\ml-framework\package\ToolboxPackagingConfigurationNCH.prj" location="C:\Users\nhowes\Project\Internal\GitLab\ml-framework\package" name="ToolboxPackagingConfigurationNCH" target="target.toolbox" target-name="Package Toolbox">
+    <param.appname>ML-Framework</param.appname>
+    <param.authnamewatermark>Nick C. Howes, Sudheer Nuggehalli</param.authnamewatermark>
+    <param.email>snuggeha@mathworks.com</param.email>
+    <param.company>MathWorks Consulting</param.company>
+    <param.summary>Machine learning experiment framework.</param.summary>
+    <param.description>Machine learning framework with automated and experimental ML.</param.description>
+    <param.screenshot>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\doc\assets\schematic.PNG</param.screenshot>
+    <param.version>1.0.3</param.version>
+    <param.output>${PROJECT_ROOT}\ML-Framework.mltbx</param.output>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.guid>1852b1dc-8768-421d-b1a7-f052aecc86e2</param.guid>
+    <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
+% from packaging.  Excludes should be listed relative to the toolbox folder.
+% Some examples of how to specify excludes are provided below:
+%
+% A single file in the toolbox folder:
+% .svn
+%
+% A single file in a subfolder of the toolbox folder:
+% example/.svn
+%
+% All files in a subfolder of the toolbox folder:
+% example/*
+%
+% All files of a certain name in all subfolders of the toolbox folder:
+% **/.svn
+%
+% All files matching a pattern in all subfolders of the toolbox folder:
+% **/*.bak
+%
+resources/project/*
+.SimulinkProject/*
+_SimulinkProject/*
+resources/.Project/*
+resources/_Project/*
+**/*.prj
+**/.git
+app/design
+demo
+sandbox
+unit
+Shortcuts
+deprecated
+doc/helpsearch-v3/_3.cfe
+doc/helpsearch-v3/_3.cfs
+doc/helpsearch-v3/_3.si
+doc/helpsearch-v3/segments_4
+ML-Framework Toolbox.mltbx
+ml-utility/sequence2features.m
+ml-utility/aenet.m
+ml-utility/explore/+unsuper
+ml-utility/helper/ColorOrder
+ml-utility/cluster
+ml-experiment/+experiment/@Cluster
+ml-experiment/+experiment/@Container
+ml-experiment/+experiment/SemiSupervised.m
+.gitattributes
+.gitignore
+.gitlab-ci.yml
+README.md
+runAllTests.m</param.exclude.filters>
+    <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples&gt;
+   &lt;exampleCategory name="crameri"&gt;
+      &lt;example name="crameri_documentation" type="html"&gt;
+         &lt;file type="source"&gt;/ml-utility/helper/crameri/html/crameri_documentation.html&lt;/file&gt;
+         &lt;file type="main"&gt;/ml-utility/helper/crameri/crameri_documentation.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/ml-utility/helper/crameri/html/crameri_documentation.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_04.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_05.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_06.png&lt;/file&gt;
+         &lt;file type="image"&gt;/ml-utility/helper/crameri/html/crameri_documentation_07.png&lt;/file&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+&lt;/examples&gt;</param.examples>
+    <param.demosxml />
+    <param.apps>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\app\ML Experiment Manager.mlappinstall</file>
+    </param.apps>
+    <param.registered.apps />
+    <param.docs>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\info.xml</param.docs>
+    <param.getting.started.guide>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\doc\GettingStarted.mlx</param.getting.started.guide>
+    <param.matlabpath.excludes />
+    <param.javaclasspath.excludes />
+    <param.exported.on.package>false</param.exported.on.package>
+    <param.required.addons>
+      <requiredaddons />
+    </param.required.addons>
+    <param.matlab.project.id>042efc12-92cf-41ec-a17c-7a7a55714c85</param.matlab.project.id>
+    <param.matlab.project.name>ml-framework</param.matlab.project.name>
+    <param.release.start>R2020b</param.release.start>
+    <param.release.end>latest</param.release.end>
+    <param.release.current.only>false</param.release.current.only>
+    <param.compatiblity.windows>true</param.compatiblity.windows>
+    <param.compatiblity.macos>true</param.compatiblity.macos>
+    <param.compatiblity.linux>true</param.compatiblity.linux>
+    <param.compatiblity.matlabonline>true</param.compatiblity.matlabonline>
+    <param.installation.map />
+    <param.additional.sw.names />
+    <param.additional.sw.licenses />
+    <param.additional.sw.win.url />
+    <param.additional.sw.mac.url />
+    <param.additional.sw.linux.url />
+    <unset>
+      <param.output />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+      <param.exclude.pcodedmfiles />
+      <param.demosxml />
+      <param.registered.apps />
+      <param.matlabpath.excludes />
+      <param.javaclasspath.excludes />
+      <param.exported.on.package />
+      <param.release.current.only />
+      <param.compatiblity.windows />
+      <param.compatiblity.macos />
+      <param.compatiblity.linux />
+      <param.compatiblity.matlabonline />
+      <param.installation.map />
+      <param.additional.sw.names />
+      <param.additional.sw.licenses />
+      <param.additional.sw.win.url />
+      <param.additional.sw.mac.url />
+      <param.additional.sw.linux.url />
+    </unset>
+    <fileset.rootdir>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework</file>
+    </fileset.rootdir>
+    <fileset.rootfiles>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\app</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\demos.xml</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\doc</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\info.xml</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\license.txt</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\ml-experiment</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\ml-utility</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\notes</file>
+      <file>${PROJECT_ROOT}</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\README.pdf</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\resources</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\SECURITY.md</file>
+      <file>C:\Users\nhowes\Project\Internal\GitLab\ml-framework\test</file>
+    </fileset.rootfiles>
+    <fileset.depfun.included>
+      <file>${MATLAB_ROOT}\examples\predmaint\data\expTrainTables.mat</file>
+      <file>${MATLAB_ROOT}\toolbox\matlab\demos\topo.mat</file>
+    </fileset.depfun.included>
+    <fileset.depfun.excluded />
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}" name="ML-Framework.mltbx" optional="false">C:\Users\nhowes\Project\Internal\GitLab\ml-framework\package\ML-Framework.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2021a</root>
+      <toolboxes>
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

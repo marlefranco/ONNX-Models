@@ -1,0 +1,859 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="helpwin.css"><script type="text/javascript" src="https://localhost:31521/static/help/includes/product/scripts/jquery/jquery-latest.js"></script><script type="text/javascript" src="https://localhost:31521/static/help/includes/shared/scripts/helpservices.js"></script><title>experiment.Classification - MATLAB File Help</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         
+      </table>
+      <div class="title">experiment.Classification</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">experiment.Classification</span> Create a machine learning classification experiment. Each
+ run in an experiment consists of: (1) a unique data pipeline configuration,
+ (2) a selected ml model, and (3) a model/hyperparamter configuration.
+ 
+  General Syntax:
+   session = <span class="helptopic">experiment.Classification</span>(...
+        "Data", thisData, ...
+        "DataFcn", @(x, settings)thisPipeline(x, settings{:}), ...
+        "Model", thisModel, ...
+        "DataConfiguration", theseParameters, ...
+        "ModelConfiguration", theseParameters, ...
+        "Description, "Some description of experiment" )
+ 
+  Description:
+    <span class="helptopic">experiment.Classification</span>( "Data", dataset, ...
+        "DataFcn", @(x, settings)datapipeline(x, settings{:} ) will
+        create a classification experiment using the default pipeline. In a
+        standard experiment the "Data" will be processed/prepared using
+        the "DataFcn" specified above and automated machine learning
+        (autoML) applied. By default, cross-validation is used (kFold =
+        5) and hyperparameter optimization is not performed. To change
+        these options specify "ModelConfiguration" parameters (see
+        below).
+        
+        Data: is a table dataset 
+        DataFcn: is an anonymous function specified in the format above
+ 
+    <span class="helptopic">experiment.Classification</span>( __, ...
+        "Model", modelselection) specifies an optional model selection.
+     
+        Model: is a scalar string. Specify: "automl", "selectml",
+        "stackml", or a learner from the classification model set
+        below. Configure the model selection via the ModelConfiguration
+        property described below.
+        
+        Automated Machine Learning 
+            *automated ML (all classification models): "automl"
+            *select ML ('best' classification model): "selectml"
+            *stack ML (meta-model combining all classifications): "stackml"
+            
+        multi-class classification models
+            *classification tree: "tree"
+            *classification discriminant analysis: "discr"
+            *classification naive bayes: "nb" 
+            *classification k nearest: "knn"
+            *classification ensemble: "ensemble" 
+            *classification multi-class svm: "ecoc" 
+            *classification tree bagger: "treebagger"
+            *classification neural net: "nnet"
+ 
+        two-class classification models (n==2)
+            *classification svm:  "svm"           
+            *classification linear: "linear"
+            *classification kernel: "kernel"
+ 
+    <span class="helptopic">experiment.Classification</span>( __, ...
+        "DataConfiguration", dataparameters, ... "ModelConfiguration",
+        modelparameters ) will create a series of experimental runs.
+        These runs will contain unique combinations of
+        "DataConfiguration" and "ModelConfiguration" parameters.
+        Default search/selection method "Search" is gridsearch, which
+        will find all unique parameter combinations using
+        "NumGridDimensions" for each dimension (configured parameter).
+        "DataConfiguration" contains parameters applied in the data
+        preparation pipeline specified by "DataFcn".
+        "ModelConfiguration" contains parameters applied in the model
+        selection specified by "Model".
+ 
+        DataConfiguration: is an optimizeParameter array (default empty)
+        ModelConfiguration: is an optimizeParameter array (default empty)
+ 
+        Refer to the <a href="matlab:helpwin('optimizeParameter')">optimizeParameter</a>
+        documentation for information on usage.
+ 
+        Valid parameters for DATACONFIGURATION include any parameter 
+        defined in the arguments block of selected data preparation pipeline
+        (e.g. "DataFcn"). Note that it is possible to validate
+        DataConfiguration options prior to running the experiment. See
+        example below. 
+ 
+        Example: Configure pipeline with/without feature selection
+        dataConfiguration = optimizeParameter.new(...
+        	"Name", "Selection", ...
+            "Range", ["none" "fscchi2"],...
+            "Type", "Discrete");
+ 
+        Valid parameters for MODELCONFIGURATION for all model
+        selection include:
+            - OptimizeHyperparameters
+            - HyperparameterOptimizationOptions  
+            - Cost
+            - CrossValidation
+            - KFold
+            - HoldOut        
+            - PredictorNames
+            - ResponseNames
+            - Include
+ 
+        Note that there are additional options specific to automated ML.
+ 
+        For automl and selectml these options include:
+            - Learners
+ 
+        Example: Configure model with/without hyperparameter optimization
+        modelConfiguration = optimizeParameter.new(...
+        	"Name", "OptimizeHyperparameters", ...
+            "Range", ["none" "all"],...
+            "Type", "Discrete");
+ 
+        Refer to <a href="matlab:helpwin('fitc')">fitc</a> documentation for general information on
+        parameter usage, or <a href="matlab:helpwin('fitc/tree')">fitc/tree</a> for a specific method.  
+ 
+    <span class="helptopic">experiment.Classification</span>( __, ...
+        "AdditionalConfiguration", addnlparameters ... "Search",
+        searchmethod, ... "Description", experimentdescription, ...
+        "CustomProperties", listofcustomproperties) allows for
+        additional customization of the experiment.
+        "AdditionalConfiguration" allows for additional parameters to
+        be applied in the data pipeline "DataFcn" without entering the
+        experimental design. These parameters will be constants across
+        all runs. "Search" specifies the parameter selection method:
+        "randomsearch" or "gridsearch". "Description" specifies a tag
+        or metadata associated with the experiment. "CustomProperties"
+        specifies a set of custom properties defined in the "DataFcn"
+        for display of the experimental results. Additionally, specify
+        the number of samples using "Evaluation" if "Search" is
+        "randomsearch" or number of grid samples per dimension using
+        "NumGridDimensions" if "Search" is "gridsearch".
+ 
+    <span class="helptopic">experiment.Classification</span> methods:
+ 
+    <a href="matlab:helpwin experiment.Classification/validate">validate</a>      - validate the input configruation (DataConfiguration) 
+    <a href="matlab:helpwin experiment.Classification/build">build</a>         - construct experimental runs from input configuration
+    <a href="matlab:helpwin experiment.Classification/configure">configure</a>     - validate and build in a single step 
+    <a href="matlab:helpwin experiment.Classification/preview">preview</a>       - preview the experimental runs as a table
+ 
+    <a href="matlab:helpwin experiment.Classification/prepare">prepare</a>       - run the data preparation pipelines
+    <a href="matlab:helpwin experiment.Classification/fit">fit</a>           - fit model to data pipeline result
+    <a href="matlab:helpwin experiment.Classification/run">run</a>           - prepare and train in a single step
+ 
+    <a href="matlab:helpwin experiment.Classification/describe">describe</a>      - view input parameters with model results as a table
+    <a href="matlab:helpwin experiment.Classification/sort">sort</a>          - rank experiment model runs by user defined metric
+    <a href="matlab:helpwin experiment.Classification/select">select</a>        - select/extract a model from the experiment
+    <a href="matlab:helpwin experiment.Classification/view">view</a>          - view dataset corresponding to an experiment run
+    
+    <a href="matlab:helpwin experiment.Classification/plotmetric">plotmetric</a>      - visualize model error as bar graph
+    confustionchart - visualize confusion charts
+ 
+    <a href="matlab:helpwin experiment.Classification/save">save</a>          - export experiment items/models to disk  
+    <a href="matlab:helpwin experiment.Classification/writedata">writedata</a>     - export trial data results with predictions
+ 
+    <span class="helptopic">experiment.Classification</span> properties
+    
+    <a href="matlab:helpwin experiment.Classification/Data">Data</a>                    - Input data
+    <a href="matlab:helpwin experiment.Classification/DataFcn">DataFcn</a>                 - Specify data preparation pipeline 
+    <a href="matlab:helpwin experiment.Classification/Model">Model</a>                   - Select classification method
+ 
+    <a href="matlab:helpwin experiment.Classification/DataConfiguration">DataConfiguration</a>       - Configure 'sweepable' parameters for data preparation pipeline
+    <a href="matlab:helpwin experiment.Classification/ModelConfiguration">ModelConfiguration</a>      - Configure 'sweepable' parameters for model selection
+    <a href="matlab:helpwin experiment.Classification/AdditionalConfiguration">AdditionalConfiguration</a> - Configure parameters for data pipeline (not sweepable in the design)
+ 
+    <a href="matlab:helpwin experiment.Classification/Search">Search</a>                  - Specify parameter selection method
+    <a href="matlab:helpwin experiment.Classification/Evaluations">Evaluations</a>             - Specify number of samples if "Search" is "randomsearch"   
+    <a href="matlab:helpwin experiment.Classification/NumGridDivisions">NumGridDivisions</a>        - Specify number of grid samples if "Search" is "gridsearch"
+ 
+    <a href="matlab:helpwin experiment.Classification/Description">Description</a>             - Description/tag associated with the experiment  
+    <a href="matlab:helpwin experiment.Classification/CustomProperties">CustomProperties</a>        - Specify properties defined in data pipeline to appear in evaluation metrics 
+ 
+ 
+    N.C. Howes, Sudheer Nuggehalli
+    MathWorks 2020</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('experiment.Base')">experiment.Base</a>, <a href="matlab:helpwin('experiment.mixin.Classification')">experiment.mixin.Classification</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Classification')">Classification</a></td>
+            <td class="m-help">experiment.Classification constructor&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.AdditionalConfiguration')">AdditionalConfiguration</a></td>
+            <td class="m-help">Configure data preparation pipelines with&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.CustomProperties')">CustomProperties</a></td>
+            <td class="m-help">Specify any custom properties in the data pipeline to&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Data')">Data</a></td>
+            <td class="m-help">Input dataset as a table. Input data will prepared using the&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.DataConfiguration')">DataConfiguration</a></td>
+            <td class="m-help">Configure 'sweepable' parameters for data&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.DataFcn')">DataFcn</a></td>
+            <td class="m-help">Specify data preparation pipeline as anonymous function&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Description')">Description</a></td>
+            <td class="m-help">String/tag associated with the experiment session&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Evaluations')">Evaluations</a></td>
+            <td class="m-help">Specify number of samples as integer value if "Search"&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Model')">Model</a></td>
+            <td class="m-help">Select classification method. Either automated machine learning&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ModelConfiguration')">ModelConfiguration</a></td>
+            <td class="m-help">Configure 'sweepable' parameters for&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.NumGridDivisions')">NumGridDivisions</a></td>
+            <td class="m-help">Specify number of grid samples per dimension if&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Search')">Search</a></td>
+            <td class="m-help">Specify parameter selection method for configuration. Valid&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Type')">Type</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.Pipelines')">Pipelines</a></td>
+            <td class="m-help">TODO DOC&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.addlistener')">addlistener</a></td>
+            <td class="m-help">Add listener for event.
+               Help for experiment.Classification/addlistener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.automl')">automl</a></td>
+            <td class="m-help">Help for experiment.Classification/automl is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.build')">build</a></td>
+            <td class="m-help">Summary of this method goes here&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.configure')">configure</a></td>
+            <td class="m-help">Validate and buid experiment&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.confusionchart')">confusionchart</a></td>
+            <td class="m-help">Plot confusion chart for trial+models in the&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.delete')">delete</a></td>
+            <td class="m-help">Destructor&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.describe')">describe</a></td>
+            <td class="m-help">Compare input parameters with model evaluation&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.discr')">discr</a></td>
+            <td class="m-help">Discriminant analysis
+               Help for experiment.Classification/discr is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ecoc')">ecoc</a></td>
+            <td class="m-help">Multi-class classification
+               Help for experiment.Classification/ecoc is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ensemble')">ensemble</a></td>
+            <td class="m-help">Ensemble of classification learners model pipeline
+               Help for experiment.Classification/ensemble is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.eq')">eq</a></td>
+            <td class="m-help">== (EQ)   Test handle equality.
+               Help for experiment.Classification/eq is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.findobj')">findobj</a></td>
+            <td class="m-help">Find objects matching specified conditions.
+               Help for experiment.Classification/findobj is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.findprop')">findprop</a></td>
+            <td class="m-help">Find property of MATLAB handle object.
+               Help for experiment.Classification/findprop is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.fit')">fit</a></td>
+            <td class="m-help">Train specified ml for items in items/configuration in the&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.fullpreview')">fullpreview</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ge')">ge</a></td>
+            <td class="m-help">&gt;= (GE)   Greater than or equal relation for handles.
+               Help for experiment.Classification/ge is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.get')">get</a></td>
+            <td class="m-help">Get MATLAB object properties.
+               Help for experiment.Classification/get is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.getdisp')">getdisp</a></td>
+            <td class="m-help">Specialized MATLAB object property display.
+               Help for experiment.Classification/getdisp is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.gt')">gt</a></td>
+            <td class="m-help">&gt; (GT)   Greater than relation for handles.
+               Help for experiment.Classification/gt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.handleError')">handleError</a></td>
+            <td class="m-help">handleErrorAutoML
+               Help for experiment.Classification/handleError is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.head')">head</a></td>
+            <td class="m-help">TODO&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.i_buildconstants')">i_buildconstants</a></td>
+            <td class="m-help">Internal function&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.i_modelsettings')">i_modelsettings</a></td>
+            <td class="m-help">Get samples&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.i_pipelinesettings')">i_pipelinesettings</a></td>
+            <td class="m-help">Get samples&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.i_postprepareChecks')">i_postprepareChecks</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ind2sub')">ind2sub</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.initializeModelParams')">initializeModelParams</a></td>
+            <td class="m-help">Help for experiment.Classification/initializeModelParams is inherited from superclass EXPERIMENT.MIXIN.BASE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">Sealed 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.isvalid')">isvalid</a></td>
+            <td class="m-help">Test handle validity.
+               Help for experiment.Classification/isvalid is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.kernel')">kernel</a></td>
+            <td class="m-help">Kernel classification model pipeline
+               Help for experiment.Classification/kernel is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.knn')">knn</a></td>
+            <td class="m-help">KNN classification model
+               Help for experiment.Classification/knn is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.le')">le</a></td>
+            <td class="m-help">&lt;= (LE)   Less than or equal relation for handles.
+               Help for experiment.Classification/le is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.linear')">linear</a></td>
+            <td class="m-help">Linear classification [hd] model pipeline
+               Help for experiment.Classification/linear is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.listener')">listener</a></td>
+            <td class="m-help">Add listener for event without binding the listener to the source object.
+               Help for experiment.Classification/listener is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.lt')">lt</a></td>
+            <td class="m-help">&lt; (LT)   Less than relation for handles.
+               Help for experiment.Classification/lt is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.nb')">nb</a></td>
+            <td class="m-help">Naive Bayes classifier pipeline
+               Help for experiment.Classification/nb is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ne')">ne</a></td>
+            <td class="m-help">~= (NE)   Not equal relation for handles.
+               Help for experiment.Classification/ne is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.nnet')">nnet</a></td>
+            <td class="m-help">Patternnet Multi-class classification
+               Help for experiment.Classification/nnet is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.notify')">notify</a></td>
+            <td class="m-help">Notify listeners of event.
+               Help for experiment.Classification/notify is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.plotmetric')">plotmetric</a></td>
+            <td class="m-help">Plot evalution metric for all experimental runs as a&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.prepare')">prepare</a></td>
+            <td class="m-help">Run data preparation pipelines for items/configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.preview')">preview</a></td>
+            <td class="m-help">Preview the experimental items/configuration.&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.reset')">reset</a></td>
+            <td class="m-help">TODO DOC&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.run')">run</a></td>
+            <td class="m-help">Run experimental items/configurations. Each item run&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.sample')">sample</a></td>
+            <td class="m-help">Internal function performs gridsearch or randomsearch&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.save')">save</a></td>
+            <td class="m-help">Save experiment to disk&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.select')">select</a></td>
+            <td class="m-help">Select/extract a model from the experiment&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.selectml')">selectml</a></td>
+            <td class="m-help">Help for experiment.Classification/selectml is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.set')">set</a></td>
+            <td class="m-help">Set MATLAB object property values.
+               Help for experiment.Classification/set is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.setdisp')">setdisp</a></td>
+            <td class="m-help">Specialized MATLAB object property display.
+               Help for experiment.Classification/setdisp is inherited from superclass MATLAB.MIXIN.SETGET
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.sort')">sort</a></td>
+            <td class="m-help">Rank experiment ML model results by an evaluation metric&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.stackml')">stackml</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.svm')">svm</a></td>
+            <td class="m-help">Classification support vector machine model pipeline
+               Help for experiment.Classification/svm is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.tree')">tree</a></td>
+            <td class="m-help">Classification tree model pipeline
+               Help for experiment.Classification/tree is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.updateLearners')">updateLearners</a></td>
+            <td class="m-help">Help for experiment.Classification/updateLearners is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.validLearners')">validLearners</a></td>
+            <td class="m-help">Help for experiment.Classification/validLearners is inherited from superclass EXPERIMENT.MIXIN.CLASSIFICATION
+               &nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.validate')">validate</a></td>
+            <td class="m-help">Validate data pipeline and model configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.validateData')">validateData</a></td>
+            <td class="m-help">VALIDATE Validate data pipeline ad configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.validateModel')">validateModel</a></td>
+            <td class="m-help">VALIDATE Validate model configuration&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.view')">view</a></td>
+            <td class="m-help">View data in an experimental item/configuration. View&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.writedata')">writedata</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+      </table>
+      <!--Events-->
+      <div class="sectiontitle"><a name="events"></a>Event Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('experiment.Classification.ObjectBeingDestroyed')">ObjectBeingDestroyed</a></td>
+            <td class="m-help">Notifies listeners that a particular object has been destroyed.
+               Help for experiment.Classification/ObjectBeingDestroyed is inherited from superclass HANDLE
+               &nbsp;
+            </td>
+         </tr>
+      </table>
+   </body>
+</html>
